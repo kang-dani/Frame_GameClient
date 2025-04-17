@@ -52,15 +52,11 @@ namespace ClientCSharp.Packet
             if (loginResponse.Success)
             {
                 GameController.Instance.LogMessage("로그인 성공!");
-                
-                
-                GameController.Scene.LoadScene(SceneName.LobbyScene);
+                GameController.Instance.LogMessage("닉네임 : " + loginResponse.UserNickname);
+                GameController.Instance.LogMessage("ID : " + loginResponse.PlayerID);
 
-                // (2) EnterGameRequest 자동 전송
-                EnterGameRequest enterGameRequest = new EnterGameRequest
-                {
-                    ActorId = 0 // 실제 Actor ID
-                };
+				GameController.Scene.LoadScene(SceneName.LobbyScene);
+                
                 //session.Send(enterGameRequest);
             }
             else

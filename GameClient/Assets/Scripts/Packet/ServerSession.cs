@@ -20,8 +20,7 @@ namespace ClientCSharp.Packet
 
             LoginRequest packet = new LoginRequest
             {
-                UserId = "player1",
-                Token = "debug-token-12345"
+                UserNickname = "player1",
             };
 
             Send(packet);
