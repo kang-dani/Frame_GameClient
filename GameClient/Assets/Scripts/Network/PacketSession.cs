@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 
-namespace UnityClient.Network
+namespace ClientCSharp.Network
 {
     public abstract class PacketSession : Session
     {
@@ -39,4 +40,5 @@ namespace UnityClient.Network
         // 실제 패킷 데이터를 처리하는 추상 메서드, 하위 클래스에서 구현
         public abstract void OnRecvPacket(ArraySegment<byte> buffer);
     }
+
 }

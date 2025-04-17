@@ -1,19 +1,19 @@
 ﻿using Google.Protobuf;
 using System.Collections.Generic;
 
-namespace UnityClient.Packet
+namespace ClientCSharp.Packet
 {
     public class PacketMessage
     {
         public ushort Id { get; set; }
-        public IMessage? Message { get; set; }
+        public IMessage Message { get; set; }
     }
 
     public class PacketQueue
     {
         public static PacketQueue Instance { get; } = new PacketQueue();
 
-        readonly Queue<PacketMessage> packetQueue = new ();
+        readonly Queue<PacketMessage> packetQueue = new();
         private readonly object lockObj = new();
 
         public void Push(ushort id, IMessage packet)
@@ -24,7 +24,7 @@ namespace UnityClient.Packet
             }
         }
 
-        public PacketMessage? Pop()
+        public PacketMessage Pop()
         {
             lock (lockObj)
             {

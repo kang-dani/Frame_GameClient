@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace UnityClient.Network
+namespace ClientCSharp.Network
 {
-    public class RecvBuffer
+    internal class RecvBuffer
     {
         // Read-only ArraySegment<byte> buffer 초기화 (버퍼 배열)
         readonly ArraySegment<byte> buffer;
@@ -90,4 +90,5 @@ namespace UnityClient.Network
             return true;
         }
     }
+
 }

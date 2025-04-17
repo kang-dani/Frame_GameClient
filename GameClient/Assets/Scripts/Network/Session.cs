@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Net.Sockets;
 using System.Net;
-using System.Net.Sockets;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 
-namespace UnityClient.Network
+
+namespace ClientCSharp.Network
 {
     public abstract class Session
     {
@@ -14,7 +15,7 @@ namespace UnityClient.Network
         private int disconnected = 0;
 
         // 수신 버퍼
-        private readonly RecvBuffer recvBuffer = new (65535);
+        private readonly RecvBuffer recvBuffer = new(65535);
 
         // 동기화 객체
         private readonly object lockObj = new();
