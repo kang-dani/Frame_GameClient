@@ -3,6 +3,8 @@ using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Diagnostics;
+using UnityEngine;
 
 
 namespace ClientCSharp.Network
@@ -10,7 +12,7 @@ namespace ClientCSharp.Network
     public abstract class Session
     {
         // 소켓 객체
-        private Socket? socket;
+        private Socket socket;
         // 연결이 종료되었는지 확인하는 플래그 (0: 연결됨, 1: 연결 종료됨)
         private int disconnected = 0;
 
@@ -125,12 +127,12 @@ namespace ClientCSharp.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine($"RegisterSend Failed {e}");
+                UnityEngine.Debug.Log($"RegisterSend Failed {e}");
             }
         }
 
         // 전송 완료 처리
-        void ProcessSend(object? sender, SocketAsyncEventArgs args)
+        void ProcessSend(object sender, SocketAsyncEventArgs args)
         {
             lock (lockObj)
             {
@@ -148,7 +150,7 @@ namespace ClientCSharp.Network
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"OnSendCompleted Failed {e}");
+						UnityEngine.Debug.Log($"OnSendCompleted Failed {e}");
                     }
                 }
                 else
@@ -180,12 +182,12 @@ namespace ClientCSharp.Network
             }
             catch (Exception e)
             {
-                Console.WriteLine($"RegisterRecv Failed {e}");
+				UnityEngine.Debug.Log($"RegisterRecv Failed {e}");
             }
         }
 
         // 수신 완료 처리
-        void ProcessRecv(object? sender, SocketAsyncEventArgs args)
+        void ProcessRecv(object sender, SocketAsyncEventArgs args)
         {
             if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
@@ -217,7 +219,7 @@ namespace ClientCSharp.Network
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"OnRecvCompleted Failed {e}");
+                    UnityEngine.Debug.Log($"OnRecvCompleted Failed {e}");
                 }
             }
             else

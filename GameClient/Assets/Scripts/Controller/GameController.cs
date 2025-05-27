@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
-    static GameController instance; // 유일성이 보장된다
-    public static GameController Instance { get { Init(); return instance; } } // 유일한 매니저를 갖고온다
+    static GameController instance;
+    public static GameController Instance { get { Init(); return instance; } }
 
-    readonly NetworkController network = new ();
-    readonly SceneController scene = new ();
+    public NetworkController network = new ();
+    public  SceneController scene = new ();
     public static NetworkController Network { get { return Instance.network; } }
     public static SceneController Scene { get { return Instance.scene; } }
 
@@ -35,8 +35,6 @@ public class GameController : MonoBehaviour
 
             DontDestroyOnLoad(go);
             instance = go.GetComponent<GameController>();
-
-            instance.network.Init();
         }
     }
 

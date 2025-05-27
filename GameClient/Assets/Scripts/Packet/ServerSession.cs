@@ -3,44 +3,65 @@ using Google.Protobuf;
 using Protocol;
 using System;
 using System.Net;
+using System.Net.Sockets;
+using UnityEngine;
 
 namespace ClientCSharp.Packet
 {
-    internal class ServerSession : PacketSession
+    public class ServerSession : PacketSession
     {
-        public void Send(IMessage packet)
+        public void Init(string userId, string token)
         {
-            var sendBuffer = ClientPacketHandler.MakeSendBuffer(packet);
-            Send(sendBuffer);
+            _userId = userId;
+            _token = token;
         }
 
         public override void OnConnected(EndPoint endPoint)
         {
-            Console.WriteLine("OnConnected");
+			Debug.Log($"OnConnected session: {this.GetHashCode()}");
+			Debug.Log($"_userId: {_userId}, _token: {_token}");
 
-            LoginRequest packet = new LoginRequest
-            {
-                UserNickname = "player1",
-            };
+			if (string.IsNullOrEmpty(_userId) || string.IsNullOrEmpty(_token))
+			{
+				Debug.LogError("Init 안 된 세션에서 LoginRequest 전송 시도됨");
+				return;
+			}
 
-            Send(packet);
-        }
+			var loginPacket = new LoginRequest
+			{
+				UserId = _userId,
+				Token = "debug-token-12345"
+			};
+
+			var buffer = ClientPacketHandler.MakeSendBuffer(loginPacket);
+			Debug.Log($"LoginRequest 전송 (크기: {buffer.Count} bytes)");
+
+			Send(buffer);
+
+		}
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            Console.WriteLine("OnDisconnected");
+			Debug.Log("OnDisconnected from GameServer");
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            Console.WriteLine("OnRecvPacket");
+			Debug.Log("Packet Received");
             ClientPacketHandler.Instance.HandlePacket(this, buffer);
         }
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine("OnSend");
+            Debug.Log($"Pakcet Sent : {numOfBytes} bytes");
         }
 
-    }
+		private string _userId;
+		private string _token;
+
+		public string UserId => _userId;
+		public string Token => _token;
+
+		public Action OnConnectedCallback;
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System;
+using UnityEngine;
 
 
 namespace ClientCSharp.Network
@@ -45,27 +46,25 @@ namespace ClientCSharp.Network
         // 연결 완료 이벤트 핸들러
         void OnConnectCompleted(object? sender, SocketAsyncEventArgs args)
         {
-            if (args.SocketError == SocketError.Success) // 연결 성공 시
+			Debug.Log(" OnConnectCompleted 호출됨");
+			if (args.SocketError == SocketError.Success) // 연결 성공 시
             {
                 if (sessionFactory != null)
                 {
-                    // 세션을 생성하고 소켓을 연결
-                    Session session = sessionFactory.Invoke();
-                    if (args.ConnectSocket != null)
-                    {
-                        session.Connect(args.ConnectSocket);
-                        if (args.RemoteEndPoint != null)
-                        {
-                            session.OnConnected(args.RemoteEndPoint); // 세션 연결 후 콜백 호출
-                        }
-                    }
-                }
+                    Debug.Log("OnConnectCompleted Success");
+					// 세션을 생성하고 소켓을 연결
+					Session session = sessionFactory.Invoke();
+					if (session != null && args.ConnectSocket != null)
+					{
+						session.Connect(args.ConnectSocket);              
+						session.OnConnected(args.RemoteEndPoint);      
+					}
+				}
             }
             else // 연결 실패 시 오류 메시지 출력
             {
-                Console.WriteLine($"OnConnectCompleted Fail: {args.SocketError}");
+				Debug.Log($"OnConnectCompleted Fail: {args.SocketError}");
             }
         }
     }
-
 }
