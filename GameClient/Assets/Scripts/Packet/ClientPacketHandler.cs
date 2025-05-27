@@ -52,8 +52,8 @@ namespace ClientCSharp.Packet
             if (loginResponse.Success)
             {
                 GameController.Instance.LogMessage("로그인 성공!");
-                GameController.Instance.LogMessage("닉네임 : " + loginResponse.UserNickname);
-                GameController.Instance.LogMessage("ID : " + loginResponse.PlayerID);
+                GameController.Instance.LogMessage($"닉네임 : {loginResponse.UserNickname}");
+                GameController.Instance.LogMessage($"ID : {loginResponse.UserId}");
 
 				GameController.Scene.LoadScene(SceneName.LobbyScene);
                 

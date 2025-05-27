@@ -10,11 +10,12 @@ namespace ClientCSharp.Packet
 {
     public class ServerSession : PacketSession
     {
-        public void Init(string userId, string token)
+        public void Init(string userId, string token, string userNickname)
         {
             _userId = userId;
             _token = token;
-        }
+			_userNickname = userNickname;
+		}
 
         public override void OnConnected(EndPoint endPoint)
         {
@@ -30,7 +31,8 @@ namespace ClientCSharp.Packet
 			var loginPacket = new LoginRequest
 			{
 				UserId = _userId,
-				Token = "debug-token-12345"
+				Token = "debug-token-12345",
+				UserNickname = _userNickname
 			};
 
 			var buffer = ClientPacketHandler.MakeSendBuffer(loginPacket);
@@ -58,9 +60,11 @@ namespace ClientCSharp.Packet
 
 		private string _userId;
 		private string _token;
+		private string _userNickname;
 
 		public string UserId => _userId;
 		public string Token => _token;
+		public string UserNickname => _userNickname;
 
 		public Action OnConnectedCallback;
 	}

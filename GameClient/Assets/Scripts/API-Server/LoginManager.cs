@@ -62,7 +62,7 @@ namespace LoginManager
 					GameController.Network.Init();
 
 					var session = GameController.Network.Session;
-					session.Init(loginRes.userId, "debug-token-12345");
+					session.Init(loginRes.userId, "debug-token-12345", loginRes.userNickname);
 					Debug.Log($"LoginManager에서 Init된 session: {session.GetHashCode()}");
 
 					GameController.Network.ConnectToGameServer(tcpHost, tcpPort);
